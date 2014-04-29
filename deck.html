@@ -58,23 +58,6 @@
           </blockquote>
       </div>
     </section>
-
-    <!--
-    <section class="slide">
-        <h2>Definitions</h2>
-        <h4>(for the purpose of this talk)</h4>
-        <ul>
-            <li>Moment: A specific point in time</li>
-            <li>Calendar: A particular system for organizing moments</li>
-            <li>Date: A moment projected through a particular calendar</li>
-            <li>Format: A way of describing a date so it can be communicated to others</li>
-        </ul>
-        <div style="position: absolute; bottom: 10%; left: 10%; right: 10%;">
-            <p style="font-size: 50%;">Note: this is NOT a talk about the JS Date object, the lack of a JSON date-serialization standard, daylight savings time (or leap-seconds), or the near-nonexistant time zone support in Javascript.  That isn't to say these things won't come up from time to time.
-            </p>
-        </div>
-    </section>
-    -->
       
     <section class="slide">
         <h2>Types of Calendars</h2>
@@ -220,12 +203,6 @@ console.log("from: " + firstMs.to("gregorian").toString() + " to: " +
         </ul>
     </section>
 
-<!--
-var time1 = {calendar: "gregorian", year: 2014, month: 10, day: 4, hour: 18, minutesWestUtc: timezone};
-var now = framework.date(time1);
-console.log("Hebrew: " + now.to("hebrew", timezone).weekday);
-console.log("Gregorian: " + now.to("gregorian", timezone).weekday);
--->
     <section class="slide">
         <h2>Some history</h2>
         <ul>
@@ -245,31 +222,12 @@ console.log("Gregorian: " + now.to("gregorian", timezone).weekday);
             <li>"Cutting edge" astronomy allowed for computational calendars
                 <ul>
                     <li>Predictive</li>
-                    <li>Required accurate measurements</li>
-                    <li>Math chops (modulo arithmetic)</li>
+                    <li>Requires accurate measurements</li>
+                    <li>...and some math chops (modulo arithmetic)</li>
                 </ul>
             </li>
        </ul>
     </section>
-      
-    <!--
-    <section class="slide">
-        <h2>Need a starting point (Epoch)</h2>
-        <ul>
-            <li>Moment zero is called the Epoch</li>
-            <li>Times before are negative, after are positive</li>
-            <li>Each calendar must map the Epoch to some fixed date</li>
-        </ul>
-        <pre>Any system that wishes to identify a particular moment in time can do so with a single number</pre>
-        <ul>
-            <li>Unix: Seconds since Jan 01, 1970 AD 00:00:00 UTC</li>
-            <li>Javascript: Milliseconds since Jan 01, 1970 AD 00:00:00 UTC</li>
-            <li>Mac OS: Seconds since Jan 01, 1904 AD 00:00:00 UTC</li>
-            <li>Windows: 100 nano-sec. ticks since Jan 01, 1601 AD 00:00:00 UTC</li>
-        </ul>
-    </section>
-    -->
-      
 
     <section class="slide">
         <h2>Are you smarter than an ancient Babylonian?</h2>
@@ -338,118 +296,6 @@ console.log("Gregorian: " + now.to("gregorian", timezone).weekday);
         </ul>
     </section>
 
-    <!--
-    <section class="slide">
-        <h2>The Hebrew Calendar use of the Metonic Cycle</h2>
-        <ul>
-            <li>
-                Look long term: 19 years / 235 months / 6940 days
-                <ul>
-                    <li>Regular (12-month) years * 19 years = 228 months * 29.5 day = 6726 days</li>
-                    <li>7 (30-day) leap months spread over the cycle = 210 days</li>
-                    <li>Sum total is 6936 days, which is 4 (or 3) days short over the 19 year cycle</li>
-                    <li>Certain months (Cheshvan and Kislev) might have a day added or removed</li>
-                    <li>Ensures Rosh Hashanah begins on "rabinnical" new moon</li>
-                </ul>
-            </li>
-        </ul>
-    </section>
-    -->
-    
-    <!--
-    <section class="slide">
-        <h2>Converting Between Calendars</h2>
-        <ul>
-            <li>Need a common time system that can represent any moment in time</li>
-            <li>Need algorithm that can convert dates in each calendar to and from this time system</li>
-            <li>Need at least one formatter for each calendar to produce human-readable output</li>
-        </ul>
-    </section>
-    -->
-    <!--
-    <section class="slide">
-        <h2>Astronomical Julian Date is my framework date</h2>
-        <ul>
-            <li>Represented by a double: the number of days (and fraction of days) since the Epoch</li>
-            <li>Round integer values represent noon (not midnight)</li>
-            <li>Epoch is the same as the one used by the inventor of the Gregorian Calendar</li>
-            <li>Epoch based on the confluence of 3 cycles (Metonic, Indiction, and Solar)</li>
-            <li class="slide">Are you smarter than a 16th century monk?  What is the Epoch?
-                <ul>
-                    <li class="slide" style="font-size: 70%">
-                        <textarea id="code" name="code" class="code" mode="javascript" style="display: none;" runnable="true" globals="ajd">
-var epoch = ajd.date(0);
-console.log("Julian: " + epoch.to("julian", 0).toLongString());
-console.log("Gregorian: " + epoch.to("gregorian", 0).toLongString());
-                        </textarea>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </section>
-    -->
-    <!--
-    <section class="slide">
-        <h2>Disadvantages of AJD</h2>
-        <ul>
-            <li>Integral moments represent UTC noon
-                <ul>
-                    <li>If this bugs you a lot use MJD (modified Julian date)</li>
-                </ul>
-            </li>
-            <li>Floating point math has rounding errors
-                <ul style="font-size: 70%">
-                    <textarea id="code" name="code" class="code" mode="javascript" style="display: none;" runnable="true" globals="ajd">
-// show off possible calculation errors
-var testDate, ms = 1 / 86400000;
-var randomDate = { calendar: 'gregorian', year: 2013, month: 7, day: 18, 
-                   hour: 4, minutes: 30, seconds: 10, milliseconds: 0, 
-                   minutesWestUtc: 0 };
-var jd = ajd.date(randomDate);
-for (var i = 0; i < 1000; i +=1 ) {
-    testDate = jd.to("gregorian", 0);
-    if (testDate.millisecond != i) {
-        console.log("error ms match: " + i + " != " + testDate.millisecond);
-        break;
-    }
-    jd.moment += ms;
-}
-console.log("done");
-                    </textarea>
-                </ul>
-            </li>
-        </ul>
-    </section>
-    -->
-    <!--
-    <section class="slide">
-        <h2>Advantages of AJD</h2>
-        <ul>
-            <li>Lingua Franca of calendar systems</li>
-            <li>Easy to find algorithms or code to convert other calendar dates to AJD
-                <ul>
-                    <li>John Walker (AutoDesk founder)
-                        <ul><li>http://www.fourmilab.ch/documents/calendar</li></ul>
-                    </li>
-                    <li>http://en.wikipedia.org/Julian_day</li>
-                    <li>Astronomical Algorithms
-                        <ul><li>http://www.willbell.com/math/mc1.htm</li></ul>
-                    </li>
-                </ul>
-            </li>
-            <li>Represented by a 64 bit double (number of days since Epoch)
-                <ul>
-                    <li>Easy to data-serialize</li>
-                    <li>Millisecond accuracy</li>
-                    <li>Easy to do basic date-math on (tomorrow, yesterday, time between two dates)</li>
-                </ul>
-            </li>
-            <li>All AJD moments are UTC - no ambiguity</li>
-            <li>Every moment you care about is a positive number</li>
-        </ul>
-    </section>
-    -->
-        
     <section class="slide">
         <h2>Let's play</h2>
         <div style="font-size: 70%">
