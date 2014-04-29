@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=1024, user-scalable=no">
+
+    <title>Your deck.js Presentation</title>
+
+    <!-- Required stylesheet -->
+    <link rel="stylesheet" media="screen" href="bower_components/deck.js/core/deck.core.css">
+
+    <!-- Extension CSS files go here. Remove or add as needed. -->
+    <link rel="stylesheet" media="screen" href="bower_components/deck.js/extensions/goto/deck.goto.css" />
+    <link rel="stylesheet" media="screen" href="bower_components/deck.js/extensions/menu/deck.menu.css" />
+    <link rel="stylesheet" media="screen" href="bower_components/deck.js/extensions/navigation/deck.navigation.css" />
+    <link rel="stylesheet" media="screen" href="bower_components/deck.js/extensions/status/deck.status.css" />
+    <link rel="stylesheet" media="screen" href="bower_components/deck.js/extensions/scale/deck.scale.css" />
+    <link rel="stylesheet" media="screen" href="bower_components/deck.js/extensions/codemirror/deck.codemirror.css" />
+    <link rel="stylesheet" media="screen" href="bower_components/deck.js/extensions/codemirror/themes/default.css" />
+    <link rel="stylesheet" media="screen" href="calendar-directive.css" />
+
+    <!-- Style theme. More available in /themes/style/ or create your own. -->
+    <link rel="stylesheet" media="screen" href="bower_components/deck.js/themes/style/web-2.0.css" />
+
+    <!-- Transition theme. More available in /themes/transition/ or create your own. -->
+    <link rel="stylesheet" media="screen" href="bower_components/deck.js/themes/transition/horizontal-slide.css" />
+
+    <!-- Basic black and white print styles -->
+    <link rel="stylesheet" media="print" href="bower_components/deck.js/core/print.css" />
+
+    <!-- Required Modernizr file -->
+    <script src="bower_components/deck.js/modernizr.custom.js"></script>
+    <script src="bower_components/jQuery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="mathHelpers.js"></script>
+    <script src="formatters.js"></script>
+    <script src="calendars.js"></script>
+    <script src="horology.js"></script>
+    <script src="calendar-directive.js"></script>
+</head>
+<body>
+    <div class="deck-container">
+    <script>
+        var framework = ajd;
+        var timezone = new Date().getTimezoneOffset();
+    </script>
+
+    <!-- Begin slides. Just make elements with a class of slide. -->
+
+    <section class="slide">
+      <h2>Javascript Horology</h2>
+      <div style="position: absolute; bottom: 5%; left: 15%; right: 15%;">
+          <p>Horology</p>
+          <blockquote>
+              <p>The art and science of measuring time.</p>
+              <cite><p>Mirriam-Webster</p></cite>
+          </blockquote>
+      </div>
+    </section>
+
+    <!--
+    <section class="slide">
+        <h2>Definitions</h2>
+        <h4>(for the purpose of this talk)</h4>
+        <ul>
+            <li>Moment: A specific point in time</li>
+            <li>Calendar: A particular system for organizing moments</li>
+            <li>Date: A moment projected through a particular calendar</li>
+            <li>Format: A way of describing a date so it can be communicated to others</li>
+        </ul>
+        <div style="position: absolute; bottom: 10%; left: 10%; right: 10%;">
+            <p style="font-size: 50%;">Note: this is NOT a talk about the JS Date object, the lack of a JSON date-serialization standard, daylight savings time (or leap-seconds), or the near-nonexistant time zone support in Javascript.  That isn't to say these things won't come up from time to time.
+            </p>
+        </div>
+    </section>
+    -->
+      
+    <section class="slide">
+        <h2>Types of Calendars</h2>
+        <ul>
+            <li>Lunar Calendars track the phases of the moon (synodic month)
+                <ul><li>Islamic</li></ul>
+            </li>
+            <li>Solar Calendars track the cycles of the seasons (tropical year)
+                <ul><li>Julian, Gregorian, Persian</li></ul>
+            </li>
+            <li>Lunisolar Calendars try to get both right
+                <ul><li>Hebrew</li></ul>
+            </li>
+            <li>Counting Calendars don't care about either one
+                <ul><li>Mayan Long Count, Unix, Windows, Javascript, OS/X</li></ul>
+            </li>
+        </ul>
+    </section>
+        
+    <section class="slide">
+        <h2>Javascript library</h2>
+        <ul>
+            <li>Represent dates from multiple calendars</li>
+            <li>Convert between calendars</li>
+        </ul>
+        <ul>
+            <li>Handle Javascript dates natively</li>
+            <li>Based on Astronomical Julian Date (AJD)</li>
+        </ul>
+        <ul class="slide">
+            <li>Oh yeah, Julian Date, so this is the 132 day of 2014</li>
+            <li>Today's date is: 2014132 right?</li>
+        </ul>
+        <ul class="slide">
+            <li>Not</li>
+        </ul>
+    </section>
+    <section class="slide">
+        <h2>What is AJD?</h2>
+        <ul>
+            <li>Epoch: January 01, 4713 BCE 12:00:00 UTC (Julian Calendar)</li>
+            <li>Dates represented by double-precision floating point
+                <ul>
+                    <li>number in Javascript</li>
+                    <li>Days and fraction of days since the Epoch</li>
+                </ul>
+            </li>
+            <li>Lingua-Franca of calendar systems</li>
+            <li>Easy to find code and algorithms to convert dates in other calendars to and from AJD
+                <ul>
+                    <li>John Walker (http://www.fourmilab.ch/documents/calendar)</li>
+                    <li>http://en.wikipedia.org/Julian_day</li>
+                    <li>Astronomical Algorithms (http://www.willbell.com/math/mc1.htm)</li>
+                </ul>
+            </li>
+            <li class="slide">So this meeting started at: 2456790.25</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>AJD Calendar Framework</h2>
+        <ul>
+            <li>Framework
+                <ul>
+                    <li>ajd.calendars: object - dictionary of available calendars</li>
+                    <li>ajd.date(calendarDate) : frameworkDate</li>
+                </ul>
+            </li>
+            <li>Framework Dates
+                <ul>
+                    <li>Moment : number</li>
+                    <li>to(calendarName, minutesWestUtc) : calendarDate</li>
+                </ul>
+            </li>
+            <li>Extensible External Calendars
+                <ul>
+                    <li>Support conversion to/from framework date</li>
+                    <li>Optional support for calendar-grid visualization</li>
+                </ul>
+            </li>
+            <li>Calendar Dates
+                <ul>
+                    <li>Properties specific to calendar</li>
+                    <li>toString() methods implemented by formatters</li>
+                </ul>
+            </li>
+            <li>Extensible formatters for calendar dates
+                <ul>
+                    <li>Produce output strings from specific properties</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Supporting new calendars</h2>
+        <ul>
+            <li>Extensible Calendars
+                <ul>
+                    <li>fromMoment(moment, minutesWestUtc) : calendarDate</li>
+                    <li>toMoment(calendarDate) : number</li>
+                    <li>calendarYear(year, minutesWestUtc) : yearCalendar</li>
+                    <li>calendarMonth(year, month, minutesWestUtc) : monthCalendar</li>
+                    <li>Add to ajd.calendars object to enable framework conversion</li>
+                </ul>
+            </li>
+            <li>Extensible Formatters
+                <ul>
+                    <li>Specific to each calendar date
+                        <ul>
+                            <li>toString()</li>
+                            <li>toLongString()</li>
+                        </ul>
+                    </li>
+                    <li>Added as methods to calendarDate objects</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Want it to work something like this:</h2>
+        <textarea id="code" name="code" class="code" mode="javascript" style="display: none;" runnable="true" globals="ajd,framework,timezone">
+var fallDate = { calendar: "gregorian", year: 2013, month: 9, 
+                 day: 4, hour: 18 };
+            
+var frameworkDate = ajd.date(fallDate);
+var hebrewCalendarDate = frameworkDate.to("hebrew");
+var jsDate = frameworkDate.to("js");
+            
+console.log(hebrewCalendarDate.toLongString());
+console.log(jsDate.toUTCString());
+        </textarea>
+    </section>
+
+    <section class="slide">
+        <h2>Stuff you thought was true</h2>
+        <ul>
+            <li>Every year has 12 months</li>
+            <li>Leap years are the only times a month can vary in length</li>
+            <li>6pm comes after 5pm</li>
+            <li>Years start with the first month</li>
+            <li>You don't need to know the time to convert a date</li>
+            <li class="slide" style="font-size: 70%">
+                <textarea id="code" name="code" class="code" mode="javascript" style="display: none;" runnable="true" globals="ajd,framework,timezone">
+var yearCalendar = framework.calendars.hebrew.calendarYear(5774);
+var firstMonth = yearCalendar.months[0];
+console.log("Hebrew " + (yearCalendar.isLeapYear ? "leap " : " ") + "year " +
+    yearCalendar.year.toString() + " has " + 
+    yearCalendar.months.length.toString() + " months");
+  
+var firstMs = framework.date(firstMonth.startingMoment);
+var lastMs = framework.date(firstMonth.startingMoment + 1 - (1/86400000));
+console.log("from: " + firstMs.to("hebrew").toString() + " to: " + 
+            lastMs.to("hebrew").toString());
+console.log("from: " + firstMs.to("gregorian").toString() + " to: " + 
+            lastMs.to("gregorian").toString());
+                </textarea>
+            </li>
+            
+        </ul>
+    </section>
+
+<!--
+var time1 = {calendar: "gregorian", year: 2014, month: 10, day: 4, hour: 18, minutesWestUtc: timezone};
+var now = framework.date(time1);
+console.log("Hebrew: " + now.to("hebrew", timezone).weekday);
+console.log("Gregorian: " + now.to("gregorian", timezone).weekday);
+-->
+    <section class="slide">
+        <h2>Some history</h2>
+        <ul>
+            <li>Calendars originally observation based
+                <ul>
+                    <li>When a new day started</li>
+                    <li>When a new month began</li>
+                    <li>When to intercalate (add leap) days or months</li>
+                </ul>
+            </li>
+            <li>Manipulated by politics and theocracy</li>
+            <li>Anyone more than a week from Rome did not know the official date</li>
+            <li>Reformed because accumulated errors made projections hysterically wrong</li>
+            <li>"Cutting edge" astronomy allowed for computational calendars
+                <ul>
+                    <li>Accurate measurements
+                        <ul>
+                            <li>Days in a mean tropical year</li>
+                            <li>Days in a mean synodic month</li>
+                        </ul>
+                    </li>
+                    <li>Serious math chops (modulo arithmetic)</li>
+                </ul>
+            </li>
+       </ul>
+    </section>
+      
+    <!--
+    <section class="slide">
+        <h2>Need a starting point (Epoch)</h2>
+        <ul>
+            <li>Moment zero is called the Epoch</li>
+            <li>Times before are negative, after are positive</li>
+            <li>Each calendar must map the Epoch to some fixed date</li>
+        </ul>
+        <pre>Any system that wishes to identify a particular moment in time can do so with a single number</pre>
+        <ul>
+            <li>Unix: Seconds since Jan 01, 1970 AD 00:00:00 UTC</li>
+            <li>Javascript: Milliseconds since Jan 01, 1970 AD 00:00:00 UTC</li>
+            <li>Mac OS: Seconds since Jan 01, 1904 AD 00:00:00 UTC</li>
+            <li>Windows: 100 nano-sec. ticks since Jan 01, 1601 AD 00:00:00 UTC</li>
+        </ul>
+    </section>
+    -->
+      
+
+    <section class="slide">
+        <h2>Are you smarter than an ancient Babylonian?</h2>
+        <ul>
+            <li class="slide">
+                How long is the mean synodic month?
+                <ul class="slide">
+                    <li>Ancient Babylon (c. 300 BCE): 29.530594 days</li>
+                    <li>Current (to same precision): 29.530588 days</li>
+                    <li>Off by less than 0.6 seconds</li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="slide">
+            <li>Lunar calendars have months alternating between 30 and 29 days</li>
+            <li>12 months equal 354 days (somewhat short of a tropical year)</li>
+       </ul>
+    </section>
+      
+    <section class="slide">
+        <h2>Are you smarter than Julius Caesar?</h2>
+        <ul>
+            <li>
+                How long is the mean tropical year?
+                <ul class="slide">
+                    <li>As copied from the Greeks and Egyptians: 365.25 days</li>
+                    <li>Gregorian reform: 365.2425 days</li>
+                    <li>Modern value (as of Jan 2000): ~365.24219 days</li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="slide">
+            <li>Lunar cycles and Solar cycles intersect!</li>
+            <li>19 years using Caesar's year length: 6939.75 days</li>
+            <li>235 months with Babylon's month length: 6939.68959 days</li>
+            <li>A difference of less than 1.5 hours</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Metonic cycle (19 years)</h2>
+        <ul>
+            <li>Calendars round to days, so 3 cycles of 6940 days and one of 6939</li>
+            <li>Aligns precisely with Julian calendar every 76 years</li>
+            <li>Add 7 months to lunar calendars over one cycle
+                <ul>
+                    <li>Add 30-day month during years 3, 6, 8, 11, 14, 17, and 19 of cycle</li>
+                    <li>After 19 years, still only at 6936 days; intercalated 3-4 other days also</li>
+                </ul>
+            </li>
+            <li>This discovery allowed horologists to <strong>calculate</strong> when to add leap months</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>What have we learned?</h2>
+        <ul>
+            <li>Leap years on lunisolar calendars depend on Metonic cycle</li>
+            <li>You are going to see some modulo 19 math</li>
+            <li>If you want to get this right, consult an astronomer</li>
+        </ul>
+    </section>
+
+    <!--
+    <section class="slide">
+        <h2>The Hebrew Calendar use of the Metonic Cycle</h2>
+        <ul>
+            <li>
+                Look long term: 19 years / 235 months / 6940 days
+                <ul>
+                    <li>Regular (12-month) years * 19 years = 228 months * 29.5 day = 6726 days</li>
+                    <li>7 (30-day) leap months spread over the cycle = 210 days</li>
+                    <li>Sum total is 6936 days, which is 4 (or 3) days short over the 19 year cycle</li>
+                    <li>Certain months (Cheshvan and Kislev) might have a day added or removed</li>
+                    <li>Ensures Rosh Hashanah begins on "rabinnical" new moon</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    -->
+    
+    <!--
+    <section class="slide">
+        <h2>Converting Between Calendars</h2>
+        <ul>
+            <li>Need a common time system that can represent any moment in time</li>
+            <li>Need algorithm that can convert dates in each calendar to and from this time system</li>
+            <li>Need at least one formatter for each calendar to produce human-readable output</li>
+        </ul>
+    </section>
+    -->
+    <!--
+    <section class="slide">
+        <h2>Astronomical Julian Date is my framework date</h2>
+        <ul>
+            <li>Represented by a double: the number of days (and fraction of days) since the Epoch</li>
+            <li>Round integer values represent noon (not midnight)</li>
+            <li>Epoch is the same as the one used by the inventor of the Gregorian Calendar</li>
+            <li>Epoch based on the confluence of 3 cycles (Metonic, Indiction, and Solar)</li>
+            <li class="slide">Are you smarter than a 16th century monk?  What is the Epoch?
+                <ul>
+                    <li class="slide" style="font-size: 70%">
+                        <textarea id="code" name="code" class="code" mode="javascript" style="display: none;" runnable="true" globals="ajd">
+var epoch = ajd.date(0);
+console.log("Julian: " + epoch.to("julian", 0).toLongString());
+console.log("Gregorian: " + epoch.to("gregorian", 0).toLongString());
+                        </textarea>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    -->
+    <!--
+    <section class="slide">
+        <h2>Disadvantages of AJD</h2>
+        <ul>
+            <li>Integral moments represent UTC noon
+                <ul>
+                    <li>If this bugs you a lot use MJD (modified Julian date)</li>
+                </ul>
+            </li>
+            <li>Floating point math has rounding errors
+                <ul style="font-size: 70%">
+                    <textarea id="code" name="code" class="code" mode="javascript" style="display: none;" runnable="true" globals="ajd">
+// show off possible calculation errors
+var testDate, ms = 1 / 86400000;
+var randomDate = { calendar: 'gregorian', year: 2013, month: 7, day: 18, 
+                   hour: 4, minutes: 30, seconds: 10, milliseconds: 0, 
+                   minutesWestUtc: 0 };
+var jd = ajd.date(randomDate);
+for (var i = 0; i < 1000; i +=1 ) {
+    testDate = jd.to("gregorian", 0);
+    if (testDate.millisecond != i) {
+        console.log("error ms match: " + i + " != " + testDate.millisecond);
+        break;
+    }
+    jd.moment += ms;
+}
+console.log("done");
+                    </textarea>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    -->
+    <!--
+    <section class="slide">
+        <h2>Advantages of AJD</h2>
+        <ul>
+            <li>Lingua Franca of calendar systems</li>
+            <li>Easy to find algorithms or code to convert other calendar dates to AJD
+                <ul>
+                    <li>John Walker (AutoDesk founder)
+                        <ul><li>http://www.fourmilab.ch/documents/calendar</li></ul>
+                    </li>
+                    <li>http://en.wikipedia.org/Julian_day</li>
+                    <li>Astronomical Algorithms
+                        <ul><li>http://www.willbell.com/math/mc1.htm</li></ul>
+                    </li>
+                </ul>
+            </li>
+            <li>Represented by a 64 bit double (number of days since Epoch)
+                <ul>
+                    <li>Easy to data-serialize</li>
+                    <li>Millisecond accuracy</li>
+                    <li>Easy to do basic date-math on (tomorrow, yesterday, time between two dates)</li>
+                </ul>
+            </li>
+            <li>All AJD moments are UTC - no ambiguity</li>
+            <li>Every moment you care about is a positive number</li>
+        </ul>
+    </section>
+    -->
+        
+    <section class="slide">
+        <h2>Let's play</h2>
+        <div style="font-size: 70%">
+            <textarea id="code" name="code" class="code" mode="javascript" style="display: none;" runnable="true" globals="ajd">
+// William I becomes king
+var xmas1066 = { calendar: 'julian', year: 1066, month: 12, day: 25, 
+                 hour: 12, minutesWestUtc: 0 };
+var jd = ajd.date(xmas1066);
+var mydate = jd.to("gregorian", 0);
+console.log("Proleptic Gregorian: " + mydate.toString());
+var mydate2 = jd.to("hebrewTraditional", 0);
+console.log("Hebrew: " + mydate2.toString());
+            </textarea>
+        </div>
+        <div style="font-size: 70%">
+            <textarea id="code" name="code" class="code" mode="javascript" style="display: none;" runnable="true" globals="ajd">
+// Shakepeare and Cervantes die
+var cervantesDeath = { calendar: 'gregorian', year: 1616, month: 04, day: 23, 
+                 hour: 12, minutesWestUtc: 0 };
+var shakespearesDeath = { calendar: 'julian', year: 1616, month: 04, day: 23, 
+                 hour: 12, minutesWestUtc: 0 };
+var jdCervantes = ajd.date(cervantesDeath);
+var jdShakespeare = ajd.date(shakespearesDeath);
+var daysBetween = Math.abs(jdShakespeare.moment - jdCervantes.moment);
+console.log("Cervantes and Shakespeare died " + daysBetween.toString() + " days apart.");
+            </textarea>
+        </div>    
+    </section>
+      
+    <section class="slide">
+        <div ng-app="multiCalendar" ng-controller="Ctrl" style="font-size: 50%">
+        <table style="width: 100%">
+            <tbody>
+                <tr style="vertical-align:middle;">
+                    <td>
+                    Calendar: <select ng-model="selectedCalendar" ng-options="c.name for c in calendars"  ng-required></select>
+                    </td>
+                    <td>
+                    Julian Date: <input ng-model="selectedJulian" />
+                    </td>
+                    <td>
+                    Long Count: {{getMayanLongCount()}}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <div style="font-size: 90%">
+                            <div calendar mc-calendar="selectedCalendar" mc-julian-date="selectedJulian" mc-minutes-west-utc="{{minutesWestUtc}}"/>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    </section>
+    
+    <!-- End slides. -->
+
+    <!-- Begin extension snippets. Add or remove as needed. -->
+
+    <!-- deck.navigation snippet -->
+    <div aria-role="navigation">
+      <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+      <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+
+    <!-- deck.status snippet -->
+    <p class="deck-status" aria-role="status">
+      <span class="deck-status-current"></span>
+      /
+      <span class="deck-status-total"></span>
+    </p>
+
+    <!-- deck.goto snippet -->
+    <form action="." method="get" class="goto-form">
+      <label for="goto-slide">Go to slide:</label>
+      <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+      <datalist id="goto-datalist"></datalist>
+      <input type="submit" value="Go">
+    </form>
+
+    <!-- End extension snippets. -->
+  </div>
+
+<!-- Required JS files. -->
+<script src="bower_components/deck.js/jquery.min.js"></script>
+<script src="bower_components/deck.js/core/deck.core.js"></script>
+
+<!-- Extension JS files. Add or remove as needed. -->
+<script src="bower_components/deck.js/extensions/menu/deck.menu.js"></script>
+<script src="bower_components/deck.js/extensions/goto/deck.goto.js"></script>
+<script src="bower_components/deck.js/extensions/status/deck.status.js"></script>
+<script src="bower_components/deck.js/extensions/navigation/deck.navigation.js"></script>
+<script src="bower_components/deck.js/extensions/scale/deck.scale.js"></script>
+<script src="bower_components/deck.js/extensions/codemirror/codemirror.js"></script>
+<script src="bower_components/deck.js/extensions/codemirror/mode/javascript/javascript.js"></script>
+<script src="bower_components/deck.js/extensions/codemirror/deck.codemirror.js"></script>
+
+
+<!-- Initialize the deck. You can put this in an external file if desired. -->
+<script>
+  $(function() {
+    $.deck('.slide');
+  });
+</script>
+</body>
+</html>

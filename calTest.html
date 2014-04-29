@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <script src="bower_components/jQuery/dist/jquery.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="mathHelpers.js"></script>
+        <script src="formatters.js"></script>
+        <script src="calendars.js"></script>
+        <script src="horology.js"></script>
+        <script src="calendar-directive.js"></script>
+        
+        <link href="calendar-directive.css" rel="stylesheet" type="text/css" />
+    </head>
+    
+    <body ng-app="multiCalendar" ng-controller="Ctrl">
+        <table style="width:100%">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Calendar: <select ng-model="selectedCalendar" ng-options="c.name for c in calendars"  ng-required></select>
+                    </td>
+                    <td>
+                        Julian Date: <input ng-model="selectedJulian" />
+                    </td>
+                    <td>
+                        MayanLongCount: {{getMayanLongCount()}}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <div calendar mc-calendar="selectedCalendar" mc-julian-date="selectedJulian" mc-minutes-west-utc="{{minutesWestUtc}}"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

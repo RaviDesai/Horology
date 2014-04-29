@@ -1,0 +1,47 @@
+<div class="fc fc-ltr">
+    <table class="fc-header" style="width:100%">
+        <tbody>
+            <tr>
+                <td class="fc-header-left" style="vertical-align:middle;">
+                    <span class="fc-header-title">
+                        <h2>{{currentMonth.longName}} {{currentMonth.formattedYear}}</h2>
+                    </span>
+                </td>
+                <td class="fc-header-center"></td>
+                <td class="fc-header-right" style="vertical-align:middle;">
+                    <span class="fc-button fc-button-today fc-state-default fc-corner-left fc-corner-right" ng-class="{'fc-state-disabled': todayIsShown()}">
+                        today
+                    </span>
+                    <span class="fc-header-space"></span>
+                    <span class="fc-button fc-button-prev fc-state-default fc-corner-left">
+                        <span class="fc-text-arrow">‹</span>
+                    </span>
+                    <span class="fc-button fc-button-next fc-state-default fc-corner-right">
+                        <span class="fc-text-arrow">›</span>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="fc-content">
+        <div class="fc-view fc-view-month fc-grid">
+            <table class="fc-border-separate" style="width:100%" cell-spacing="0">
+                <thead>
+                    <tr class="fc-first fc-last">
+                        <th ng-repeat="weekday in yearInCalendar.weekdays" class="fc-sun fc-widget-header" ng-class="{'fc-first': $first, 'fc-last': $last}" style="min-width:84px">{{weekday}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="fc-week" ng-repeat="week in currentMonth.weeks" ng-class="{'fc-first': $first, 'fc-last': $last}">
+                        <td class="fc-day fc-sun fc-widget-content fc-past" ng-repeat="day in week.days" ng-class="{'fc-first': $first, 'fc-last': $last}" >
+                            <div ng-class="{'fc-state-highlight': isToday(day), 'fc-easter-highlight': isEaster(day)}" ng-click="choose(day)" enabled="!isToday(day)" style="min-height:89px">
+                                <div class="fc-day-number">{{day.dayNumber}}</div>
+                                <div class="fc-day-content">{{displayValue(day)}}</div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
