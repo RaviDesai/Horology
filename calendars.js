@@ -150,7 +150,7 @@
     };
     
     // Julian/Gregorian Base class
-    // Possible since both calendars use same days and months, vary mostly on calculation of leap year.
+    // Possible since both calendars use same days and months, vary only on calculation of leap year.
     ajd.julianGregorianBase = function(calendarName, formatter) {
         "use strict";
         
@@ -286,7 +286,7 @@
     };
     ajd.calendars.gregorian = gregorian(ajd.gregorianFormatter());
 
-    // julian calendar
+    // Julian calendar
     var julian = function(formatter) {
         "use strict";
 
@@ -469,7 +469,6 @@
             return result;
         };
 
-        // https://www.fourmilab.ch/documents/calendar/
         that.fromMoment = function(moment, minutesWestUtc) {
             minutesWestUtc = minutesWestUtc || 0;
 
@@ -638,7 +637,6 @@
                 ISLAMIC_EPOCH) - 1;
         }
 
-        //  toJulianDate  --  Determine Julian day from Islamic date
         that.toMoment = function(dateParts)
         {
             var result = toJulianDayNumber(dateParts.year, dateParts.month, dateParts.day);
@@ -648,7 +646,6 @@
             return result;
         };
 
-        // https://www.fourmilab.ch/documents/calendar/
         that.fromMoment = function(moment, minutesWestUtc)
         {
             var year, month, day, result, time, jd,
