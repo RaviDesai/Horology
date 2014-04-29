@@ -109,16 +109,16 @@
             <li>Today's date is: 2014132 right?</li>
         </ul>
         <ul class="slide">
-            <li>Not</li>
+            <li>No</li>
         </ul>
     </section>
     <section class="slide">
-        <h2>What is AJD?</h2>
+        <h2>AJD is a Counting Calendar</h2>
         <ul>
             <li>Epoch: January 01, 4713 BCE 12:00:00 UTC (Julian Calendar)</li>
             <li>Dates represented by double-precision floating point
                 <ul>
-                    <li>number in Javascript</li>
+                    <li>'number' in Javascript</li>
                     <li>Days and fraction of days since the Epoch</li>
                 </ul>
             </li>
@@ -145,25 +145,8 @@
             </li>
             <li>Framework Dates
                 <ul>
-                    <li>Moment : number</li>
+                    <li>moment : number</li>
                     <li>to(calendarName, minutesWestUtc) : calendarDate</li>
-                </ul>
-            </li>
-            <li>Extensible External Calendars
-                <ul>
-                    <li>Support conversion to/from framework date</li>
-                    <li>Optional support for calendar-grid visualization</li>
-                </ul>
-            </li>
-            <li>Calendar Dates
-                <ul>
-                    <li>Properties specific to calendar</li>
-                    <li>toString() methods implemented by formatters</li>
-                </ul>
-            </li>
-            <li>Extensible formatters for calendar dates
-                <ul>
-                    <li>Produce output strings from specific properties</li>
                 </ul>
             </li>
         </ul>
@@ -178,12 +161,11 @@
                     <li>toMoment(calendarDate) : number</li>
                     <li>calendarYear(year, minutesWestUtc) : yearCalendar</li>
                     <li>calendarMonth(year, month, minutesWestUtc) : monthCalendar</li>
-                    <li>Add to ajd.calendars object to enable framework conversion</li>
                 </ul>
             </li>
             <li>Extensible Formatters
                 <ul>
-                    <li>Specific to each calendar date
+                    <li>Specific to each Calendar's date objects
                         <ul>
                             <li>toString()</li>
                             <li>toLongString()</li>
@@ -198,8 +180,8 @@
     <section class="slide">
         <h2>Want it to work something like this:</h2>
         <textarea id="code" name="code" class="code" mode="javascript" style="display: none;" runnable="true" globals="ajd,framework,timezone">
-var fallDate = { calendar: "gregorian", year: 2013, month: 9, 
-                 day: 4, hour: 18 };
+var fallDate = { calendar: "gregorian", year: 2013,
+                 month: 9, day: 4, hour: 18 };
             
 var frameworkDate = ajd.date(fallDate);
 var hebrewCalendarDate = frameworkDate.to("hebrew");
@@ -214,10 +196,10 @@ console.log(jsDate.toUTCString());
         <h2>Stuff you thought was true</h2>
         <ul>
             <li>Every year has 12 months</li>
-            <li>Leap years are the only times a month can vary in length</li>
+            <li>Hours divide into minutes and seconds</li>
             <li>6pm comes after 5pm</li>
             <li>Years start with the first month</li>
-            <li>You don't need to know the time to convert a date</li>
+            <li>You can convert a date without knowing the time of day</li>
             <li class="slide" style="font-size: 70%">
                 <textarea id="code" name="code" class="code" mode="javascript" style="display: none;" runnable="true" globals="ajd,framework,timezone">
 var yearCalendar = framework.calendars.hebrew.calendarYear(5774);
@@ -228,8 +210,8 @@ console.log("Hebrew " + (yearCalendar.isLeapYear ? "leap " : " ") + "year " +
   
 var firstMs = framework.date(firstMonth.startingMoment);
 var lastMs = framework.date(firstMonth.startingMoment + 1 - (1/86400000));
-console.log("from: " + firstMs.to("hebrew").toString() + " to: " + 
-            lastMs.to("hebrew").toString());
+console.log("from: " + firstMs.to("hebrewTraditional").toString() + " to: " +
+            lastMs.to("hebrewTraditional").toString());
 console.log("from: " + firstMs.to("gregorian").toString() + " to: " + 
             lastMs.to("gregorian").toString());
                 </textarea>
@@ -249,23 +231,22 @@ console.log("Gregorian: " + now.to("gregorian", timezone).weekday);
         <ul>
             <li>Calendars originally observation based
                 <ul>
-                    <li>When a new day started</li>
-                    <li>When a new month began</li>
+                    <li>When a new day or new month begain</li>
                     <li>When to intercalate (add leap) days or months</li>
                 </ul>
             </li>
-            <li>Manipulated by politics and theocracy</li>
-            <li>Anyone more than a week from Rome did not know the official date</li>
-            <li>Reformed because accumulated errors made projections hysterically wrong</li>
+            <li>Issues
+                <ul>
+                    <li>Manipulated by politics</li>
+                    <li>Anyone more than a week from Rome didn't know the date</li>
+                    <li>Accumulated errors made calendar hysterically wrong</li>
+                </ul>
+            </li>
             <li>"Cutting edge" astronomy allowed for computational calendars
                 <ul>
-                    <li>Accurate measurements
-                        <ul>
-                            <li>Days in a mean tropical year</li>
-                            <li>Days in a mean synodic month</li>
-                        </ul>
-                    </li>
-                    <li>Serious math chops (modulo arithmetic)</li>
+                    <li>Predictive</li>
+                    <li>Required accurate measurements</li>
+                    <li>Math chops (modulo arithmetic)</li>
                 </ul>
             </li>
        </ul>
@@ -321,20 +302,25 @@ console.log("Gregorian: " + now.to("gregorian", timezone).weekday);
             </li>
         </ul>
         <ul class="slide">
-            <li>Lunar cycles and Solar cycles intersect!</li>
-            <li>19 years using Caesar's year length: 6939.75 days</li>
-            <li>235 months with Babylon's month length: 6939.68959 days</li>
-            <li>A difference of less than 1.5 hours</li>
+            <li>Lunar cycles and Solar cycles intersect!
+                <ul>
+                    <li>19 years using Caesar's year length: 6939.75 days</li>
+                    <li>235 months with Babylon's month length: 6939.68959 days</li>
+                    <li>A difference of less than 1.5 hours</li>
+                </ul>
+            </li>
         </ul>
     </section>
 
     <section class="slide">
-        <h2>Metonic cycle (19 years)</h2>
+        <h2>Metonic cycle (Meton of Athens)</h2>
         <ul>
+            <li>19 years / 235 lunations / 6939.75 days</li>
             <li>Calendars round to days, so 3 cycles of 6940 days and one of 6939</li>
             <li>Aligns precisely with Julian calendar every 76 years</li>
             <li>Add 7 months to lunar calendars over one cycle
                 <ul>
+                    <li>19 * 12 = 228 + 7 = 235</li>
                     <li>Add 30-day month during years 3, 6, 8, 11, 14, 17, and 19 of cycle</li>
                     <li>After 19 years, still only at 6936 days; intercalated 3-4 other days also</li>
                 </ul>
@@ -347,7 +333,7 @@ console.log("Gregorian: " + now.to("gregorian", timezone).weekday);
         <h2>What have we learned?</h2>
         <ul>
             <li>Leap years on lunisolar calendars depend on Metonic cycle</li>
-            <li>You are going to see some modulo 19 math</li>
+            <li>You are going to see some modulo arithmetic</li>
             <li>If you want to get this right, consult an astronomer</li>
         </ul>
     </section>
