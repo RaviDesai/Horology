@@ -76,7 +76,106 @@
             </li>
         </ul>
     </section>
-        
+
+    <section class="slide">
+        <h2>A brief history of Calendars</h2>
+        <ul>
+            <li>Originally observation based
+                <ul>
+                    <li>A new month began when a New Moon was spotted</li>
+                    <li>Decision to intercalate (add leap) days or months</li>
+                </ul>
+            </li>
+            <li>Issues
+                <ul>
+                    <li>Manipulated by politics</li>
+                    <li>Anyone more than a week from Rome didn't know the date</li>
+                    <li>Accumulated errors made calendar hysterically wrong</li>
+                </ul>
+            </li>
+            <li>Accurate models allowed for computational calendars
+                <ul>
+                    <li>Predictive</li>
+                    <li>Required some math chops</li>
+                </ul>
+            </li>
+       </ul>
+    </section>
+
+    <section class="slide">
+        <div style="height=100%">
+            <img src="Boromir.jpg" style="position: fixed; left: 50%; top:50%;
+                                          margin-left: -238px; margin-top: -168px"/>
+        </div>
+    </section>
+
+   <section class="slide">
+        <h2>Are you smarter than an ancient Babylonian?</h2>
+        <ul>
+            <li class="slide">
+                How long is the mean synodic month?
+                <ul class="slide">
+                    <li>Ancient Babylon (c. 300 BCE): 29.530594 days</li>
+                    <li>Current (to same precision): 29.530588 days</li>
+                    <li>Off by less than 0.6 seconds</li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="slide">
+            <li>Lunar calendars have months alternating between 30 and 29 days</li>
+            <li>12 months equal 354 days (somewhat short of a tropical year)</li>
+       </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Are you smarter than Julius Caesar?</h2>
+        <ul>
+            <li>
+                How long is the mean tropical year?
+                <ul class="slide">
+                    <li>As copied from the Greeks and Egyptians: 365.25 days</li>
+                    <li>Gregorian reform: 365.2425 days</li>
+                    <li>Modern value (as of Jan 2000): ~365.24219 days</li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="slide">
+            <li>Lunar cycles and Solar cycles intersect!
+                <ul>
+                    <li>19 years using Caesar's year length: 6939.75 days</li>
+                    <li>235 months with Babylon's month length: 6939.68959 days</li>
+                    <li>A difference of less than 1.5 hours</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Metonic cycle (Meton of Athens)</h2>
+        <ul>
+            <li>19 years / 235 lunations / 6939.75 days</li>
+            <li>Calendars round to days, so 3 cycles of 6940 days and one of 6939</li>
+            <li>Aligns precisely with Julian calendar every 76 years</li>
+            <li>Add 7 months to lunar calendars over one cycle
+                <ul>
+                    <li>19 * 12 = 228 + 7 = 235</li>
+                    <li>Add 30-day month during years 3, 6, 8, 11, 14, 17, and 19 of cycle</li>
+                    <li>After 19 years, still only at 6936 days; intercalated 3-4 other days also</li>
+                </ul>
+            </li>
+            <li>This discovery allowed horologists to <strong>calculate</strong> when to add leap months</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>What have we learned?</h2>
+        <ul>
+            <li>Leap years on lunisolar calendars depend on Metonic cycle</li>
+            <li>You are going to see some modulo arithmetic</li>
+            <li>If you want to get this right, consult an astronomer</li>
+        </ul>
+    </section>
+
     <section class="slide">
         <h2>Javascript library</h2>
         <ul>
@@ -203,98 +302,7 @@ console.log("from: " + firstMs.to("gregorian").toString() + " to: " +
         </ul>
     </section>
 
-    <section class="slide">
-        <h2>Some history</h2>
-        <ul>
-            <li>Calendars originally observation based
-                <ul>
-                    <li>When a new day or new month begain</li>
-                    <li>When to intercalate (add leap) days or months</li>
-                </ul>
-            </li>
-            <li>Issues
-                <ul>
-                    <li>Manipulated by politics</li>
-                    <li>Anyone more than a week from Rome didn't know the date</li>
-                    <li>Accumulated errors made calendar hysterically wrong</li>
-                </ul>
-            </li>
-            <li>"Cutting edge" astronomy allowed for computational calendars
-                <ul>
-                    <li>Predictive</li>
-                    <li>Requires accurate measurements</li>
-                    <li>...and some math chops (modulo arithmetic)</li>
-                </ul>
-            </li>
-       </ul>
-    </section>
 
-    <section class="slide">
-        <h2>Are you smarter than an ancient Babylonian?</h2>
-        <ul>
-            <li class="slide">
-                How long is the mean synodic month?
-                <ul class="slide">
-                    <li>Ancient Babylon (c. 300 BCE): 29.530594 days</li>
-                    <li>Current (to same precision): 29.530588 days</li>
-                    <li>Off by less than 0.6 seconds</li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="slide">
-            <li>Lunar calendars have months alternating between 30 and 29 days</li>
-            <li>12 months equal 354 days (somewhat short of a tropical year)</li>
-       </ul>
-    </section>
-      
-    <section class="slide">
-        <h2>Are you smarter than Julius Caesar?</h2>
-        <ul>
-            <li>
-                How long is the mean tropical year?
-                <ul class="slide">
-                    <li>As copied from the Greeks and Egyptians: 365.25 days</li>
-                    <li>Gregorian reform: 365.2425 days</li>
-                    <li>Modern value (as of Jan 2000): ~365.24219 days</li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="slide">
-            <li>Lunar cycles and Solar cycles intersect!
-                <ul>
-                    <li>19 years using Caesar's year length: 6939.75 days</li>
-                    <li>235 months with Babylon's month length: 6939.68959 days</li>
-                    <li>A difference of less than 1.5 hours</li>
-                </ul>
-            </li>
-        </ul>
-    </section>
-
-    <section class="slide">
-        <h2>Metonic cycle (Meton of Athens)</h2>
-        <ul>
-            <li>19 years / 235 lunations / 6939.75 days</li>
-            <li>Calendars round to days, so 3 cycles of 6940 days and one of 6939</li>
-            <li>Aligns precisely with Julian calendar every 76 years</li>
-            <li>Add 7 months to lunar calendars over one cycle
-                <ul>
-                    <li>19 * 12 = 228 + 7 = 235</li>
-                    <li>Add 30-day month during years 3, 6, 8, 11, 14, 17, and 19 of cycle</li>
-                    <li>After 19 years, still only at 6936 days; intercalated 3-4 other days also</li>
-                </ul>
-            </li>
-            <li>This discovery allowed horologists to <strong>calculate</strong> when to add leap months</li>
-        </ul>
-    </section>
-
-    <section class="slide">
-        <h2>What have we learned?</h2>
-        <ul>
-            <li>Leap years on lunisolar calendars depend on Metonic cycle</li>
-            <li>You are going to see some modulo arithmetic</li>
-            <li>If you want to get this right, consult an astronomer</li>
-        </ul>
-    </section>
 
     <section class="slide">
         <h2>Let's play</h2>

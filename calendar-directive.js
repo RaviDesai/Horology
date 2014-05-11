@@ -137,9 +137,11 @@ angular.module("multiCalendar", [])
 
                     $scope.yearInCalendar = calendar.calendarYear(dateOnCalendar.year, $scope.minutesWestUtc);
                     setCurrentMonthAndIndex($scope, dateOnCalendar.month);
-                    var easterThisYear = $scope.calendar.calendar.easter($scope.yearInCalendar.year);
-                    easterThisYear.minutesWestUtc = $scope.minutesWestUtc;
-                    $scope.ajdEaster = ajd.date(easterThisYear);
+                    if ($scope.calendar.calendar.easter) {
+                        var easterThisYear = $scope.calendar.calendar.easter($scope.yearInCalendar.year);
+                        easterThisYear.minutesWestUtc = $scope.minutesWestUtc;
+                        $scope.ajdEaster = ajd.date(easterThisYear);
+                    }
                 };
                 
                 $scope.$watch("calendar", watchFunction);
