@@ -121,9 +121,8 @@
         <h2>Lunisolar Calendar</h2>
         <p>(Hebrew)</p>
         <ul>
-            <li>Meton of Athens discovered that solar and lunar cycles overlap</li>
-            <li>Metonic cycle == 19 years == 235 lunations ~= 6939.75 days</li>
-            <li>Calendars use integer days, so 3 cycles of 6940 days and one of 6939</li>
+            <li>Meton of Athens discovered that solar and lunar cycles coincide</li>
+            <li>Metonic cycle says 19 years has the same number of days as 235 lunations</li>
             <li>Intercalate 7 months over each 19-year cycle
                 <ul>
                     <li>A lunar calendar has 228 months in 19 years; need 235</li>
@@ -188,6 +187,21 @@
     </section>
 
     <section class="slide">
+        <h2>Want it to work something like this:</h2>
+        <textarea id="code" name="code" class="code" mode="javascript" style="display: none;" runnable="true" globals="ajd,framework,timezone">
+var fallDate = { calendar: "gregorian", year: 2013,
+                 month: 9, day: 4, hour: 18 };
+
+var frameworkDate = ajd.date(fallDate);
+var hebrewCalendarDate = frameworkDate.to("hebrew");
+var jsDate = frameworkDate.to("js");
+
+console.log(hebrewCalendarDate.toLongString());
+console.log(jsDate.toUTCString());
+        </textarea>
+    </section>
+
+    <section class="slide">
         <h2>AJD Calendar Framework</h2>
         <ul>
             <li>Framework
@@ -228,21 +242,6 @@
                 </ul>
             </li>
         </ul>
-    </section>
-
-    <section class="slide">
-        <h2>Want it to work something like this:</h2>
-        <textarea id="code" name="code" class="code" mode="javascript" style="display: none;" runnable="true" globals="ajd,framework,timezone">
-var fallDate = { calendar: "gregorian", year: 2013,
-                 month: 9, day: 4, hour: 18 };
-            
-var frameworkDate = ajd.date(fallDate);
-var hebrewCalendarDate = frameworkDate.to("hebrew");
-var jsDate = frameworkDate.to("js");
-            
-console.log(hebrewCalendarDate.toLongString());
-console.log(jsDate.toUTCString());
-        </textarea>
     </section>
 
     <section class="slide">
