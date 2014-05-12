@@ -58,44 +58,26 @@
           </blockquote>
       </div>
     </section>
-      
-    <section class="slide">
-        <h2>Categories of Calendars</h2>
-        <ul>
-            <li>Lunar Calendars track the phases of the moon (synodic month)
-                <ul><li>Islamic</li></ul>
-            </li>
-            <li>Solar Calendars track the cycles of the seasons (tropical year)
-                <ul><li>Egyptian, Julian, Gregorian</li></ul>
-            </li>
-            <li>Lunisolar Calendars try to get both right
-                <ul><li>Hebrew</li></ul>
-            </li>
-            <li>Counting Calendars don't care about either one
-                <ul><li>Mayan Long Count, Unix, Windows, Javascript, OS/X</li></ul>
-            </li>
-        </ul>
-    </section>
 
     <section class="slide">
         <h2>A brief history of Calendars</h2>
         <ul>
-            <li>Originally observation based
+            <li>Observation based
                 <ul>
-                    <li>A new month began when a New Moon was spotted</li>
-                    <li>Decision to intercalate (add leap) days or months</li>
+                    <li>Lengths of seasons and phases of the moon do not divide evenly into days</li>
+                    <li>Someone had to decide when to intercalate (add leap days/months)</li>
                 </ul>
             </li>
             <li>Issues
                 <ul>
-                    <li>Manipulated by politics</li>
+                    <li>Intercalation failed due to general incompetence or when manipulated by politicians</li>
                     <li>Anyone more than a week from Rome didn't know the date</li>
-                    <li>Accumulated errors made calendar hysterically wrong</li>
                 </ul>
             </li>
-            <li>Accurate models allowed for computational calendars
+            <li>The fix was to produce a purely computational calendar
                 <ul>
                     <li>Predictive</li>
+                    <li>Immune to human interference</li>
                     <li>Required some math chops</li>
                 </ul>
             </li>
@@ -110,60 +92,54 @@
     </section>
 
    <section class="slide">
-        <h2>Are you smarter than an ancient Babylonian?</h2>
-        <ul>
-            <li class="slide">
-                How long is the mean synodic month?
-                <ul class="slide">
-                    <li>Ancient Babylon (c. 300 BCE): 29.530594 days</li>
-                    <li>Current (to same precision): 29.530588 days</li>
-                    <li>Off by less than 0.6 seconds</li>
-                </ul>
-            </li>
-        </ul>
+        <h2>Lunar Calendar</h2>
+        <p>(Islamic: *still observational)</p>
+        <p>How long is the mean synodic month?</p>
         <ul class="slide">
-            <li>Lunar calendars have months alternating between 30 and 29 days</li>
-            <li>12 months equal 354 days (somewhat short of a tropical year)</li>
-       </ul>
-    </section>
-
-    <section class="slide">
-        <h2>Are you smarter than Julius Caesar?</h2>
-        <ul>
-            <li>
-                How long is the mean tropical year?
-                <ul class="slide">
-                    <li>As copied from the Greeks and Egyptians: 365.25 days</li>
-                    <li>Gregorian reform: 365.2425 days</li>
-                    <li>Modern value (as of Jan 2000): ~365.24219 days</li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="slide">
-            <li>Lunar cycles and Solar cycles intersect!
-                <ul>
-                    <li>19 years using Caesar's year length: 6939.75 days</li>
-                    <li>235 months with Babylon's month length: 6939.68959 days</li>
-                    <li>A difference of less than 1.5 hours</li>
-                </ul>
-            </li>
+            <li>Ancient Babylon (c. 300 BCE): 29.530594 days</li>
+            <li>Current (as of 2010): 29.530588 days</li>
+            <li>Months alternate 30 and 29 days</li>
+            <li>Leap days (11 years in every 30) prevent lunar phase drift</li>
+            <li>Seasons drift through the calendar</li>
         </ul>
     </section>
 
     <section class="slide">
-        <h2>Metonic cycle (Meton of Athens)</h2>
+        <h2>Solar Calendar</h2>
+        <p>(Egyptian, Julian, Gregorian)</p>
+        <p>How long is the mean tropical year?</p>
+        <ul class="slide">
+            <li>Julian: 365.25 days</li>
+            <li>Gregorian reform: 365.2425 days</li>
+            <li>Modern value (as of Jan 2000): ~365.24219 days</li>
+            <li>Lunar phases drift through the calendar</li>
+            <li>Leap days (1 year in every 4) prevent seasonal drift</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Lunisolar Calendar</h2>
+        <p>(Hebrew)</p>
         <ul>
-            <li>19 years / 235 lunations / 6939.75 days</li>
-            <li>Calendars round to days, so 3 cycles of 6940 days and one of 6939</li>
-            <li>Aligns precisely with Julian calendar every 76 years</li>
-            <li>Add 7 months to lunar calendars over one cycle
+            <li>Meton of Athens discovered that solar and lunar cycles overlap</li>
+            <li>Metonic cycle == 19 years == 235 lunations ~= 6939.75 days</li>
+            <li>Calendars use integer days, so 3 cycles of 6940 days and one of 6939</li>
+            <li>Intercalate 7 months over each 19-year cycle
                 <ul>
-                    <li>19 * 12 = 228 + 7 = 235</li>
-                    <li>Add 30-day month during years 3, 6, 8, 11, 14, 17, and 19 of cycle</li>
-                    <li>After 19 years, still only at 6936 days; intercalated 3-4 other days also</li>
+                    <li>A lunar calendar has 228 months in 19 years; need 235</li>
+                    <li>Add 30-day months during years 3, 6, 8, 11, 14, 17, and 19 of cycle</li>
                 </ul>
             </li>
-            <li>This discovery allowed horologists to <strong>calculate</strong> when to add leap months</li>
+            <li>This allowed horologists to produce computed lunisolar calendars</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Counting Calendars</h2>
+        <p>Mayan Long Count, various Operating Systems</p>
+        <ul>
+            <li>Epoch: Date that moment 0 maps to</li>
+            <li>Number: Elapsed time since (or until) the Epoch</li>
         </ul>
     </section>
 
@@ -186,13 +162,6 @@
         <ul>
             <li>Handle Javascript dates natively</li>
             <li>Based on Astronomical Julian Date (AJD)</li>
-        </ul>
-        <ul class="slide">
-            <li>Oh yeah, Julian Date, so this is the 132 day of 2014</li>
-            <li>Today's date is: 2014132 right?</li>
-        </ul>
-        <ul class="slide">
-            <li>No</li>
         </ul>
     </section>
     <section class="slide">

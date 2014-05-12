@@ -141,6 +141,8 @@ angular.module("multiCalendar", [])
                         var easterThisYear = $scope.calendar.calendar.easter($scope.yearInCalendar.year);
                         easterThisYear.minutesWestUtc = $scope.minutesWestUtc;
                         $scope.ajdEaster = ajd.date(easterThisYear);
+                    } else {
+                        $scope.ajdEaster = null;
                     }
                 };
                 
